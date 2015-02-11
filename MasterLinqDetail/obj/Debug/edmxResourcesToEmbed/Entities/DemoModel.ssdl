@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DemoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="MAT_SHAPE">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="MSH_ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="MSH_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MATERIAL">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MATERIAL_NAME" Type="nvarchar" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="MSHAPE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SHAPE_NAME" Type="nvarchar" MaxLength="64" />
+  </EntityType>
+  <Association Name="FK_MAT_SHAP_MAT_SHAPE_MATERIAL">
+    <End Role="MATERIAL" Type="Self.MATERIAL" Multiplicity="1" />
+    <End Role="MAT_SHAPE" Type="Self.MAT_SHAPE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MATERIAL">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MAT_SHAPE">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MAT_SHAP_MAT_SHAPE_MSHAPE">
+    <End Role="MSHAPE" Type="Self.MSHAPE" Multiplicity="1" />
+    <End Role="MAT_SHAPE" Type="Self.MAT_SHAPE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MSHAPE">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MAT_SHAPE">
+        <PropertyRef Name="MSH_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DemoDBModelStoreContainer">
+    <EntitySet Name="MAT_SHAPE" EntityType="Self.MAT_SHAPE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MATERIAL" EntityType="Self.MATERIAL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MSHAPE" EntityType="Self.MSHAPE" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_MAT_SHAP_MAT_SHAPE_MATERIAL" Association="Self.FK_MAT_SHAP_MAT_SHAPE_MATERIAL">
+      <End Role="MATERIAL" EntitySet="MATERIAL" />
+      <End Role="MAT_SHAPE" EntitySet="MAT_SHAPE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MAT_SHAP_MAT_SHAPE_MSHAPE" Association="Self.FK_MAT_SHAP_MAT_SHAPE_MSHAPE">
+      <End Role="MSHAPE" EntitySet="MSHAPE" />
+      <End Role="MAT_SHAPE" EntitySet="MAT_SHAPE" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

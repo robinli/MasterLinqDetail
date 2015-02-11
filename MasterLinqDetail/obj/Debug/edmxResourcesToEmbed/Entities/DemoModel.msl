@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DemoDBModelStoreContainer" CdmEntityContainer="DemoDBEntities">
+    <EntitySetMapping Name="MATERIAL">
+      <EntityTypeMapping TypeName="DemoDBModel.MATERIAL">
+        <MappingFragment StoreEntitySet="MATERIAL">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MATERIAL_NAME" ColumnName="MATERIAL_NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MSHAPE">
+      <EntityTypeMapping TypeName="DemoDBModel.MSHAPE">
+        <MappingFragment StoreEntitySet="MSHAPE">
+          <ScalarProperty Name="SHAPE_NAME" ColumnName="SHAPE_NAME" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MAT_SHAPE" TypeName="DemoDBModel.MAT_SHAPE" StoreEntitySet="MAT_SHAPE">
+      <EndProperty Name="MSHAPE">
+        <ScalarProperty Name="ID" ColumnName="MSH_ID" />
+      </EndProperty>
+      <EndProperty Name="MATERIAL">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

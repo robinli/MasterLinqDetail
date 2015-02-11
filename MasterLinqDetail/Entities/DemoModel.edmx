@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DemoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MAT_SHAPE">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="MSH_ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="MSH_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MATERIAL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MATERIAL_NAME" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="MSHAPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SHAPE_NAME" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <Association Name="FK_MAT_SHAP_MAT_SHAPE_MATERIAL">
+          <End Role="MATERIAL" Type="Self.MATERIAL" Multiplicity="1" />
+          <End Role="MAT_SHAPE" Type="Self.MAT_SHAPE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MATERIAL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MAT_SHAPE">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MAT_SHAP_MAT_SHAPE_MSHAPE">
+          <End Role="MSHAPE" Type="Self.MSHAPE" Multiplicity="1" />
+          <End Role="MAT_SHAPE" Type="Self.MAT_SHAPE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MSHAPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MAT_SHAPE">
+              <PropertyRef Name="MSH_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoDBModelStoreContainer">
+          <EntitySet Name="MAT_SHAPE" EntityType="Self.MAT_SHAPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MATERIAL" EntityType="Self.MATERIAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MSHAPE" EntityType="Self.MSHAPE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MAT_SHAP_MAT_SHAPE_MATERIAL" Association="Self.FK_MAT_SHAP_MAT_SHAPE_MATERIAL">
+            <End Role="MATERIAL" EntitySet="MATERIAL" />
+            <End Role="MAT_SHAPE" EntitySet="MAT_SHAPE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MAT_SHAP_MAT_SHAPE_MSHAPE" Association="Self.FK_MAT_SHAP_MAT_SHAPE_MSHAPE">
+            <End Role="MSHAPE" EntitySet="MSHAPE" />
+            <End Role="MAT_SHAPE" EntitySet="MAT_SHAPE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MATERIAL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MATERIAL_NAME" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MSHAPE" Relationship="DemoDBModel.MAT_SHAPE" FromRole="MATERIAL" ToRole="MSHAPE" />
+        </EntityType>
+        <EntityContainer Name="DemoDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MATERIAL" EntityType="Self.MATERIAL" />
+          <EntitySet Name="MSHAPE" EntityType="DemoDBModel.MSHAPE" />
+          <AssociationSet Name="MAT_SHAPE" Association="DemoDBModel.MAT_SHAPE">
+            <End Role="MATERIAL" EntitySet="MATERIAL" />
+            <End Role="MSHAPE" EntitySet="MSHAPE" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="MSHAPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SHAPE_NAME" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MATERIAL" Relationship="DemoDBModel.MAT_SHAPE" FromRole="MSHAPE" ToRole="MATERIAL" />
+        </EntityType>
+        <Association Name="MAT_SHAPE">
+          <End Type="DemoDBModel.MATERIAL" Role="MATERIAL" Multiplicity="*" />
+          <End Type="DemoDBModel.MSHAPE" Role="MSHAPE" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemoDBModelStoreContainer" CdmEntityContainer="DemoDBEntities">
+          <EntitySetMapping Name="MATERIAL">
+            <EntityTypeMapping TypeName="DemoDBModel.MATERIAL">
+              <MappingFragment StoreEntitySet="MATERIAL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MATERIAL_NAME" ColumnName="MATERIAL_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MSHAPE">
+            <EntityTypeMapping TypeName="DemoDBModel.MSHAPE">
+              <MappingFragment StoreEntitySet="MSHAPE">
+                <ScalarProperty Name="SHAPE_NAME" ColumnName="SHAPE_NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MAT_SHAPE" TypeName="DemoDBModel.MAT_SHAPE" StoreEntitySet="MAT_SHAPE">
+            <EndProperty Name="MSHAPE">
+              <ScalarProperty Name="ID" ColumnName="MSH_ID" />
+            </EndProperty>
+            <EndProperty Name="MATERIAL">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

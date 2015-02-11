@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DemoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="MATERIAL">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MATERIAL_NAME" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MSHAPE" Relationship="DemoDBModel.MAT_SHAPE" FromRole="MATERIAL" ToRole="MSHAPE" />
+  </EntityType>
+  <EntityContainer Name="DemoDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="MATERIAL" EntityType="Self.MATERIAL" />
+    <EntitySet Name="MSHAPE" EntityType="DemoDBModel.MSHAPE" />
+    <AssociationSet Name="MAT_SHAPE" Association="DemoDBModel.MAT_SHAPE">
+      <End Role="MATERIAL" EntitySet="MATERIAL" />
+      <End Role="MSHAPE" EntitySet="MSHAPE" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="MSHAPE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SHAPE_NAME" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MATERIAL" Relationship="DemoDBModel.MAT_SHAPE" FromRole="MSHAPE" ToRole="MATERIAL" />
+  </EntityType>
+  <Association Name="MAT_SHAPE">
+    <End Type="DemoDBModel.MATERIAL" Role="MATERIAL" Multiplicity="*" />
+    <End Type="DemoDBModel.MSHAPE" Role="MSHAPE" Multiplicity="*" />
+  </Association>
+</Schema>
